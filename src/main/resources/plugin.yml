@@ -1,0 +1,24 @@
+name: manhunt2
+version: '${project.version}'
+main: si.f5.actport.manhunt2.manhunt2.PluginMain
+api-version: 1.19
+authors: [ Acted_ ]
+description: Manhuntがクソコード過ぎたので作り直しました。
+permissions:
+  manhunt.permission:
+    description: manhuntの操作をするときに必要な権限です。OP権限があれば入手できます。
+    default: op
+commands:
+  manhunt:
+    description: 指定した秒数を制限時間とし、manhuntを開始します。このコマンドを実行する前に/manhuntinitでチーム分けモードに切り替えてチーム分けをしてください。
+    usage: /manhunt <second>
+    permission: manhunt.permission
+    permission-message: 権限がありません。
+  manhuntinit:
+    description: このコマンドを実行すると、チーム分けモードの切り替えを行います。
+    usage: /manhuntinit
+    permission: manhunt.permission
+    permission-message: 権限がありません。
+  fly:
+    permission: manhunt.permission
+    permission-message: 権限がありません。
