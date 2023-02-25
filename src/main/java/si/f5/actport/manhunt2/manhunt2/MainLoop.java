@@ -254,7 +254,7 @@ public class MainLoop extends BukkitRunnable{
     private void spread(Player player)
     {
         Random random=new Random();
-        World world=player.getWorld();
+        World world=Bukkit.getWorlds().get(0);
         Location defaultSpawn =world.getSpawnLocation();
         int x=random.nextInt(50)-25+(int)defaultSpawn.getX();
         int z=random.nextInt(50)-25+(int)defaultSpawn.getZ();
