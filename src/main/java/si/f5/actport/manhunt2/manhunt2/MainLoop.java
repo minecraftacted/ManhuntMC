@@ -212,13 +212,13 @@ public class MainLoop extends BukkitRunnable{
                     {
                         player.sendMessage(ChatColor.RED+"あなたは鬼だ。");
                         player.sendMessage("空へと響く高い音色に、ふと目を落とした。羅針盤は遠い彼方を指していた。\n愚か者に制裁を加えなければならない。\n何故か? それは与えられた義務だからだ。" +
-                                "\n\n勝利条件:\n    逃走者が全滅する\n    時間切れになる\n敗北条件:\n    全滅する\n    逃走者が1人でもネザーに行く");
+                                "\n\n勝利条件:\n    逃走者が全滅する\n    時間切れになる\n敗北条件:\n    全滅する\n    エンダードラゴンが倒される");
                     }
                     if(team.getName().equals("runner"))
                     {
                         player.sendMessage(ChatColor.AQUA+"あなたは逃走者だ。");
                         player.sendMessage("ある日突然、希望の光は現れた。我々は隙を突いて脱出した。\nどんな代償を払おうとも、我々は帰還しなければならない。\n何故か? それは与えられた義務だからだ。"+
-                                "\n\n勝利条件:\n    鬼が全滅する\n    1人でもネザーに行って鬼を撒く\n敗北条件:\n    全滅する\n    時間切れになる");
+                                "\n\n勝利条件:\n    鬼が全滅する\n    エンダードラゴンを倒す\n敗北条件:\n    全滅する\n    時間切れになる");
                     }
                     player.sendMessage(Manhunt2.LINE);
                     if(team.getName().equals("hunter"))
