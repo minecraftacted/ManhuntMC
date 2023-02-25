@@ -1,7 +1,6 @@
 
 package si.f5.actport.manhunt2.manhunt2;
 
-import jdk.tools.jmod.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

@@ -20,7 +20,7 @@ private VictoryJudge victoryJudge;
         // Plugin startup logic
         getCommand("manhuntinit").setExecutor(manhuntInitCommand);
         getCommand("manhunt").setExecutor(manhuntCommand);
-        getCommand("fly").setExecutor(new FlyCommand());
+        getCommand("autoteamsetting").setExecutor(new AutoTeamSettingCommand());
         Bukkit.getServer().getPluginManager().registerEvents(new ManhuntInitChatListener(),this);
         Bukkit.getServer().getPluginManager().registerEvents(victoryJudge,this);
         manhunt2=Manhunt2.instance();

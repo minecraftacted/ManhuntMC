@@ -19,6 +19,9 @@ commands:
     usage: /manhuntinit
     permission: manhunt.permission
     permission-message: 権限がありません。
-  fly:
+
+  autoteamsetting:
+    description: このコマンドを実行すると、ランダムにチーム分けをします。 num of hunterがプレイヤーの総数を超えている場合、ゲームが実行中の場合失敗します。
+    usage: /autoteamsetting <num of hunter>
     permission: manhunt.permission
     permission-message: 権限がありません。

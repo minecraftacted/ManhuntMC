@@ -1,9 +1,7 @@
 package si.f5.actport.manhunt2.manhunt2;
 
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.WorldBorder;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
@@ -20,6 +18,8 @@ public class Manhunt2 {
     private final Scoreboard board;
     private final Team hunterTeam;
     private final Team runnerTeam;
+    private final Team deadHunterTeam;
+    private final Team deadRunnerTeam;
     private boolean ManhuntInitializing =false;
     private WorldBorder worldBorder=Bukkit.createWorldBorder();
     private MainLoop mainLoop=new MainLoop();
@@ -27,18 +27,32 @@ public class Manhunt2 {
     {
         manager= Bukkit.getScoreboardManager();
         board=manager.getNewScoreboard();
-        hunterTeam=board.registerNewTeam("鬼");
+        hunterTeam=board.registerNewTeam("hunter");
         hunterTeam.setPrefix(ChatColor.RED+"[鬼]");
         hunterTeam.setDisplayName("鬼");
         hunterTeam.color(NamedTextColor.RED);
         hunterTeam.setOption(Team.Option.NAME_TAG_VISIBILITY,Team.OptionStatus.FOR_OTHER_TEAMS);
         hunterTeam.setAllowFriendlyFire(false);
-        runnerTeam=board.registerNewTeam("逃走者");
+        runnerTeam=board.registerNewTeam("runner");
         runnerTeam.setPrefix(ChatColor.AQUA+"[逃走者]");
         runnerTeam.setDisplayName("逃走者");
         runnerTeam.color(NamedTextColor.AQUA);
         runnerTeam.setOption(Team.Option.NAME_TAG_VISIBILITY,Team.OptionStatus.FOR_OTHER_TEAMS);
         runnerTeam.setAllowFriendlyFire(false);
+        deadHunterTeam=board.registerNewTeam("deadhunter");
+        deadHunterTeam.setPrefix(ChatColor.GRAY+"[死亡済み]");
+        deadHunterTeam.setSuffix(ChatColor.DARK_RED+"[鬼]");
+        deadHunterTeam.setDisplayName("観戦鬼");
+        deadHunterTeam.color(NamedTextColor.GRAY);
+        deadHunterTeam.setOption(Team.Option.NAME_TAG_VISIBILITY,Team.OptionStatus.FOR_OTHER_TEAMS);
+        deadHunterTeam.setAllowFriendlyFire(false);
+        deadRunnerTeam=board.registerNewTeam("deadrunner");
+        deadRunnerTeam.setPrefix(ChatColor.GRAY+"[死亡済み]");
+        deadRunnerTeam.setSuffix(ChatColor.DARK_AQUA+"[逃走者]");
+        deadRunnerTeam.setDisplayName("観戦逃走者");
+        deadRunnerTeam.color(NamedTextColor.GRAY);
+        deadRunnerTeam.setOption(Team.Option.NAME_TAG_VISIBILITY,Team.OptionStatus.FOR_OTHER_TEAMS);
+        deadRunnerTeam.setAllowFriendlyFire(false);
     }
 
 
@@ -94,6 +108,37 @@ public class Manhunt2 {
     {
         return worldBorder;
     }
+    public void JoinHunterTeam(Player player)
+    {
+        Manhunt2.instance().RemovePlayerFromRunner(player);
+        Manhunt2.instance().AddPlayerToHunter(player);
+        player.sendMessage(LINE+ ChatColor.RED+"\n鬼に設定しました。\n"+ChatColor.RESET+LINE);
+        player.setScoreboard(Manhunt2.instance().board());
+        player.playSound(player, Sound.BLOCK_NOTE_BLOCK_HARP,2,1);
+        player.playSound(player, Sound.ENTITY_VEX_HURT,2,1);
+        player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASEDRUM,2,1);
+        player.spawnParticle(Particle.REDSTONE,player.getLocation(),240,0.1,2,0.1,20,new Particle.DustOptions(Color.fromRGB(255, 64, 64),1));
+    }
+    public void JoinRunnerTeam(Player player)
+    {
+        Manhunt2.instance().RemovePlayerFromHunter(player);
+        Manhunt2.instance().AddPlayerToRunner(player);
+        player.sendMessage(LINE+ ChatColor.AQUA+"\n逃走者に設定しました。\n"+ChatColor.RESET+LINE);
+        player.setScoreboard(Manhunt2.instance().board());
+        player.playSound(player, Sound.BLOCK_NOTE_BLOCK_HARP,2,1);
+        player.playSound(player, Sound.ENTITY_VEX_HURT,2,1);
+        player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASEDRUM,2,1);
+        player.spawnParticle(Particle.REDSTONE,player.getLocation(),240,0.1,2,0.1,20,new Particle.DustOptions(Color.fromRGB(39, 163, 245),1));
+    }
 
+    public Team getDeadHunterTeam()
+    {
+        return deadHunterTeam;
+    }
+
+    public Team getDeadRunnerTeam()
+    {
+        return deadRunnerTeam;
+    }
 }
 

@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class MainLoop extends BukkitRunnable{
     private int maxCount;
     private int nowCount;
-    private static final int waitSecondAtStart=30;
+    private static final int waitSecondAtStart=15;
     private static final int tick=20;
     public AtomicBoolean stopReq=new AtomicBoolean(false);
     public AtomicBoolean Running=new AtomicBoolean(false);
@@ -40,14 +40,6 @@ public class MainLoop extends BukkitRunnable{
         {
             stopReq.set(false);
             Running.set(false);
-            for(OfflinePlayer offlinePlayer:Manhunt2.instance().getRunnerTeam().getPlayers())
-            {
-                Manhunt2.instance().getRunnerTeam().removePlayer(offlinePlayer);
-            }
-            for(OfflinePlayer offlinePlayer:Manhunt2.instance().getHunterTeam().getPlayers())
-            {
-                Manhunt2.instance().getHunterTeam().removePlayer(offlinePlayer);
-            }
             ((PluginMain)PluginMain.getPlugin()).getVictoryJudge().TimeUp();
             for(Team team: Manhunt2.instance().board().getTeams())
             {
@@ -70,14 +62,7 @@ public class MainLoop extends BukkitRunnable{
 
             stopReq.set(false);
             Running.set(false);
-            for(OfflinePlayer offlinePlayer:Manhunt2.instance().getRunnerTeam().getPlayers())
-            {
-                Manhunt2.instance().getRunnerTeam().removePlayer(offlinePlayer);
-            }
-            for(OfflinePlayer offlinePlayer:Manhunt2.instance().getHunterTeam().getPlayers())
-            {
-                Manhunt2.instance().getHunterTeam().removePlayer(offlinePlayer);
-            }
+
             for(Team team: Manhunt2.instance().board().getTeams())
             {
                 for(OfflinePlayer offlinePlayer: team.getPlayers())
@@ -100,17 +85,17 @@ public class MainLoop extends BukkitRunnable{
             AtStart();
             bossBarManager=new BossBarManager();
         }
-        if(nowCount>maxCount-30)
+        if(nowCount>maxCount-waitSecondAtStart)
         {
             UpTo30secAfterStart();
         }
-        if(nowCount==(maxCount-30))
+        if(nowCount==(maxCount-waitSecondAtStart))
         {
             WhenTheHunterIsOpen();
         }
         if(nowCount==300)
         {
-            for(OfflinePlayer offlinePlayer:Manhunt2.instance().board().getTeam("逃走者").getPlayers())
+            for(OfflinePlayer offlinePlayer:Manhunt2.instance().board().getTeam("runner").getPlayers())
             {
                 if(offlinePlayer instanceof Player)
                 {
@@ -119,7 +104,7 @@ public class MainLoop extends BukkitRunnable{
                 }
             }
         }
-        if(!(nowCount>maxCount-5))
+        if(!(nowCount>maxCount-waitSecondAtStart))
         {
             footprintsGen.Gen();
         }
@@ -137,7 +122,7 @@ public class MainLoop extends BukkitRunnable{
                 if(offlinePlayer instanceof Player)
                 {
                     Player player=(Player) offlinePlayer;
-                    if(team.getName().equals("鬼"))
+                    if(team.getName().equals("hunter"))
                     {
                         Bukkit.dispatchCommand(player,"supportmanhuntcompass");
                     }
@@ -148,7 +133,7 @@ public class MainLoop extends BukkitRunnable{
     }
 
     private void UpTo30secAfterStart() {
-        for(OfflinePlayer offlinePlayer:Manhunt2.instance().board().getTeam("鬼").getPlayers())
+        for(OfflinePlayer offlinePlayer:Manhunt2.instance().board().getTeam("hunter").getPlayers())
         {
             if(offlinePlayer instanceof Player)
             {
@@ -165,6 +150,22 @@ public class MainLoop extends BukkitRunnable{
     }
     private void AtStart()
     {
+        for(OfflinePlayer offlinePlayer:Manhunt2.instance().getDeadHunterTeam().getPlayers())
+        {
+            if(offlinePlayer instanceof Player)
+            {
+                Player player=(Player) offlinePlayer;
+                Manhunt2.instance().getDeadHunterTeam().removePlayer(player);
+            }
+        }
+        for(OfflinePlayer offlinePlayer:Manhunt2.instance().getDeadRunnerTeam().getPlayers())
+        {
+            if(offlinePlayer instanceof Player)
+            {
+                Player player=(Player) offlinePlayer;
+                Manhunt2.instance().getDeadRunnerTeam().removePlayer(player);
+            }
+        }
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"advancement revoke @a everything");
         huntersInitalPosition=new HashMap<>();
         for(Team team:Manhunt2.instance().board().getTeams())
@@ -207,22 +208,34 @@ public class MainLoop extends BukkitRunnable{
                     }
                     player.sendMessage(Manhunt2.LINE);
                     player.sendMessage(Manhunt2.LINE);
-                    player.sendMessage("ここにテキストを後で書く");
+                    if(team.getName().equals("hunter"))
+                    {
+                        player.sendMessage(ChatColor.RED+"あなたは鬼だ。");
+                        player.sendMessage("空へと響く高い音色に、ふと目を落とした。羅針盤は遠い彼方を指していた。\n愚か者に制裁を加えなければならない。\n何故か? それは与えられた義務だからだ。" +
+                                "\n\n勝利条件:\n    逃走者が全滅する\n    時間切れになる\n敗北条件:\n    全滅する\n    逃走者が1人でもネザーに行く");
+                    }
+                    if(team.getName().equals("runner"))
+                    {
+                        player.sendMessage(ChatColor.AQUA+"あなたは逃走者だ。");
+                        player.sendMessage("ある日突然、希望の光は現れた。我々は隙を突いて脱出した。\nどんな代償を払おうとも、我々は帰還しなければならない。\n何故か? それは与えられた義務だからだ。"+
+                                "\n\n勝利条件:\n    鬼が全滅する\n    1人でもネザーに行って鬼を撒く\n敗北条件:\n    全滅する\n    時間切れになる");
+                    }
                     player.sendMessage(Manhunt2.LINE);
-                    if(team.getName().equals("鬼"))
+                    if(team.getName().equals("hunter"))
                     {
                         player.setGameMode(GameMode.SURVIVAL);
                         huntersInitalPosition.put(player,player.getLocation());
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS,waitSecondAtStart*tick,1));
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,waitSecondAtStart*tick,255));
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP,waitSecondAtStart*tick,128));
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING,waitSecondAtStart*tick,255));
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS,waitSecondAtStart*tick,255));
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,waitSecondAtStart*tick,255));
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION,waitSecondAtStart*tick,255));
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION,waitSecondAtStart*tick,255));
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS,waitSecondAtStart*tick,1,false,false));
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,waitSecondAtStart*tick,255,false,false));
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP,waitSecondAtStart*tick,128,false,false));
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING,waitSecondAtStart*tick,255,false,false));
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS,waitSecondAtStart*tick,255,false,false));
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,waitSecondAtStart*tick,255,false,false));
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION,waitSecondAtStart*tick,255,false,false));
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION,waitSecondAtStart*tick,255,false,false));
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY,waitSecondAtStart*tick,255,false,false));
                     }
-                    if(team.getName().equals("逃走者"))
+                    if(team.getName().equals("runner"))
                     {
                         player.getInventory().setHelmet(new ItemStack(Material.LEATHER_HELMET));
                         player.getInventory().setChestplate(new ItemStack(Material.LEATHER_CHESTPLATE));
