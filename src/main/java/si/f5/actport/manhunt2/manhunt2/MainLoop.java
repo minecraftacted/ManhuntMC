@@ -41,20 +41,7 @@ public class MainLoop extends BukkitRunnable{
             stopReq.set(false);
             Running.set(false);
             ((PluginMain)PluginMain.getPlugin()).getVictoryJudge().TimeUp();
-            for(Team team: Manhunt2.instance().board().getTeams())
-            {
-                for(OfflinePlayer offlinePlayer: team.getPlayers())
-                {
-                    if(offlinePlayer instanceof Player)
-                    {
-                        Player player=(Player) offlinePlayer;
-                        player.stopSound(SoundCategory.BLOCKS);
-                    }
-                }
-            }
-            bossBarManager.Destroy();
-            Bukkit.broadcastMessage("終了");
-            cancel();
+            AtEnd();
             return;
         }
         if(stopReq.get())
@@ -62,21 +49,7 @@ public class MainLoop extends BukkitRunnable{
 
             stopReq.set(false);
             Running.set(false);
-
-            for(Team team: Manhunt2.instance().board().getTeams())
-            {
-                for(OfflinePlayer offlinePlayer: team.getPlayers())
-                {
-                    if(offlinePlayer instanceof Player)
-                    {
-                        Player player=(Player) offlinePlayer;
-                        player.stopSound(SoundCategory.BLOCKS);
-                    }
-                }
-            }
-            bossBarManager.Destroy();
-            Bukkit.broadcastMessage("終了");
-            cancel();
+            AtEnd();
             return;
         }
         if(nowCount==maxCount)
@@ -113,7 +86,25 @@ public class MainLoop extends BukkitRunnable{
         bossBarManager.UpdateBossBar(maxCount,nowCount);
         nowCount--;
     }
-
+    private void AtEnd()
+    {
+        Manhunt2.instance().getHunterTeam().setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.ALWAYS);
+        Manhunt2.instance().getRunnerTeam().setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.ALWAYS);
+        for(Team team: Manhunt2.instance().board().getTeams())
+        {
+            for(OfflinePlayer offlinePlayer: team.getPlayers())
+            {
+                if(offlinePlayer instanceof Player)
+                {
+                    Player player=(Player) offlinePlayer;
+                    player.stopSound(SoundCategory.BLOCKS);
+                }
+            }
+        }
+        bossBarManager.Destroy();
+        Bukkit.broadcastMessage("終了");
+        cancel();
+    }
     private void WhenTheHunterIsOpen() {
         for(Team team:Manhunt2.instance().board().getTeams())
         {
@@ -168,6 +159,8 @@ public class MainLoop extends BukkitRunnable{
         }
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"advancement revoke @a everything");
         huntersInitalPosition=new HashMap<>();
+        Manhunt2.instance().getRunnerTeam().setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OTHER_TEAMS);
+        Manhunt2.instance().getHunterTeam().setOption(Team.Option.NAME_TAG_VISIBILITY,Team.OptionStatus.FOR_OTHER_TEAMS);
         for(Team team:Manhunt2.instance().board().getTeams())
         {
             for(OfflinePlayer offlinePlayer:team.getPlayers())

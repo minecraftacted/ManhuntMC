@@ -31,13 +31,13 @@ public class Manhunt2 {
         hunterTeam.setPrefix(ChatColor.RED+"[鬼]");
         hunterTeam.setDisplayName("鬼");
         hunterTeam.color(NamedTextColor.RED);
-        hunterTeam.setOption(Team.Option.NAME_TAG_VISIBILITY,Team.OptionStatus.FOR_OTHER_TEAMS);
+        hunterTeam.setOption(Team.Option.NAME_TAG_VISIBILITY,Team.OptionStatus.ALWAYS);
         hunterTeam.setAllowFriendlyFire(false);
         runnerTeam=board.registerNewTeam("runner");
         runnerTeam.setPrefix(ChatColor.AQUA+"[逃走者]");
         runnerTeam.setDisplayName("逃走者");
         runnerTeam.color(NamedTextColor.AQUA);
-        runnerTeam.setOption(Team.Option.NAME_TAG_VISIBILITY,Team.OptionStatus.FOR_OTHER_TEAMS);
+        runnerTeam.setOption(Team.Option.NAME_TAG_VISIBILITY,Team.OptionStatus.ALWAYS);
         runnerTeam.setAllowFriendlyFire(false);
         deadHunterTeam=board.registerNewTeam("deadhunter");
         deadHunterTeam.setPrefix(ChatColor.GRAY+"[死亡済み]");
