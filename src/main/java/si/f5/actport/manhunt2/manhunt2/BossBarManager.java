@@ -28,7 +28,16 @@ public class BossBarManager {
     {
         DisplayForAllPlayer();
         bossbar.setProgress((double)now/(double)max);
-        bossbar.setTitle("残り: "+now/60+"分"+now%60+"秒");
+        int h,m,s;
+        h=now/3600;
+        m=(now/60)%60;
+        s=now%60;
+        bossbar.setTitle
+        (
+            "残り: "+(h>=10?"":"0")+h+"時間"+
+            (m>=10?"":"0")+m+"分"+
+            (s>=10?"":"0")+s+"秒"
+        );
     }
     public void Destroy()
     {

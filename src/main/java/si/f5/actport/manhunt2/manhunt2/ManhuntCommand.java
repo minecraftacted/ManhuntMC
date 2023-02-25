@@ -1,7 +1,6 @@
 
 package si.f5.actport.manhunt2.manhunt2;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,7 +19,7 @@ public class ManhuntCommand implements CommandExecutor {
             if(args.length==0)
             {
                 Manhunt2.instance().newMainLoop();
-                Manhunt2.instance().getMainLoop().SetCount(1800);
+                Manhunt2.instance().getMainLoop().SetCount(10800);
                 Manhunt2.instance().getMainLoop().runTaskTimer(PluginMain.getPlugin(),0,20);
                 return true;
             }
