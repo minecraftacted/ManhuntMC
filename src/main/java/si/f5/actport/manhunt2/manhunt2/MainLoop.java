@@ -81,8 +81,7 @@ public class MainLoop extends BukkitRunnable{
         {
             footprintsGen.Gen();
         }
-        Manhunt2.instance().getWorldBorder().setCenter(Bukkit.getWorlds().get(0).getSpawnLocation());
-        Manhunt2.instance().getWorldBorder().setSize(4096);
+
         bossBarManager.UpdateBossBar(maxCount,nowCount);
         if(nowCount%60==0&&!(nowCount==maxCount))
         {
@@ -173,7 +172,6 @@ public class MainLoop extends BukkitRunnable{
                 if(offlinePlayer instanceof Player)
                 {
                     Player player=(Player)offlinePlayer;
-                    player.setWorldBorder(Manhunt2.instance().getWorldBorder());
                     spread(player);
                     Random random=new Random();
                     player.playSound(player,musicDisks[random.nextInt(12)],SoundCategory.BLOCKS, 1F, 1.25F);

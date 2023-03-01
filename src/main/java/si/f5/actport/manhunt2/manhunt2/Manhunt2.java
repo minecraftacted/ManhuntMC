@@ -23,7 +23,6 @@ public class Manhunt2 {
     private final Team deadRunnerTeam;
     private boolean ManhuntInitializing =false;
     private Compass compass;
-    private WorldBorder worldBorder=Bukkit.createWorldBorder();
     private MainLoop mainLoop=new MainLoop();
     private Manhunt2()
     {
@@ -114,10 +113,7 @@ public class Manhunt2 {
     {
         return compass;
     }
-    public WorldBorder getWorldBorder()
-    {
-        return worldBorder;
-    }
+
     public void JoinHunterTeam(Player player)
     {
         Manhunt2.instance().RemovePlayerFromRunner(player);
