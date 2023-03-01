@@ -21,7 +21,6 @@ public class MainLoop extends BukkitRunnable{
     private static final int tick=20;
     public AtomicBoolean stopReq=new AtomicBoolean(false);
     public AtomicBoolean Running=new AtomicBoolean(false);
-    FootprintsGen footprintsGen=new FootprintsGen();
     private BossBarManager bossBarManager;
     private Map<Player,Location> huntersInitalPosition;
     private final Sound[] musicDisks={Sound.MUSIC_DISC_BLOCKS,Sound.MUSIC_DISC_CAT, Sound.MUSIC_DISC_CHIRP,Sound.MUSIC_DISC_FAR,Sound.MUSIC_DISC_MALL,Sound.MUSIC_DISC_MELLOHI,Sound.MUSIC_DISC_OTHERSIDE,Sound.MUSIC_DISC_PIGSTEP,Sound.MUSIC_DISC_STAL,Sound.MUSIC_DISC_STRAD,Sound.MUSIC_DISC_WAIT,Sound.MUSIC_DISC_WARD};
@@ -60,7 +59,11 @@ public class MainLoop extends BukkitRunnable{
         }
         if(nowCount>maxCount-waitSecondAtStart)
         {
-            UpTo15secAfterStart();
+            AtStandByTime();
+        }
+        else
+        {
+            AtNotStandByTime();
         }
         if(nowCount==(maxCount-waitSecondAtStart))
         {
@@ -76,10 +79,6 @@ public class MainLoop extends BukkitRunnable{
                     runner.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING,5*60*20,10));
                 }
             }
-        }
-        if(!(nowCount>maxCount-waitSecondAtStart))
-        {
-            footprintsGen.Gen();
         }
 
         bossBarManager.UpdateBossBar(maxCount,nowCount);
@@ -126,7 +125,7 @@ public class MainLoop extends BukkitRunnable{
         }
     }
 
-    private void UpTo15secAfterStart() {
+    private void AtStandByTime() {
         for(OfflinePlayer offlinePlayer:Manhunt2.instance().board().getTeam("hunter").getPlayers())
         {
             if(offlinePlayer instanceof Player)
@@ -135,6 +134,13 @@ public class MainLoop extends BukkitRunnable{
                 player.teleport(huntersInitalPosition.get(player));
                 player.getInventory().clear();
             }
+        }
+    }
+    private void AtNotStandByTime()
+    {
+        for(Player player:Bukkit.getOnlinePlayers())
+        {
+            new FootPrint(13,player.getLocation()).runTaskTimer(PluginMain.getPlugin(),0,20);
         }
     }
 
