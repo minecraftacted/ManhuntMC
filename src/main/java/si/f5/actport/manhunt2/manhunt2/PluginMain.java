@@ -23,6 +23,7 @@ private VictoryJudge victoryJudge;
         getCommand("autoteamsetting").setExecutor(new AutoTeamSettingCommand());
         Bukkit.getServer().getPluginManager().registerEvents(new ManhuntInitChatListener(),this);
         Bukkit.getServer().getPluginManager().registerEvents(victoryJudge,this);
+        Bukkit.getServer().getPluginManager().registerEvents(new ChatListenerForChangeCompassTarget(),this);
         manhunt2=Manhunt2.instance();
     }
 

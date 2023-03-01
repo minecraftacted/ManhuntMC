@@ -60,7 +60,7 @@ public class MainLoop extends BukkitRunnable{
         }
         if(nowCount>maxCount-waitSecondAtStart)
         {
-            UpTo30secAfterStart();
+            UpTo15secAfterStart();
         }
         if(nowCount==(maxCount-waitSecondAtStart))
         {
@@ -84,6 +84,10 @@ public class MainLoop extends BukkitRunnable{
         Manhunt2.instance().getWorldBorder().setCenter(Bukkit.getWorlds().get(0).getSpawnLocation());
         Manhunt2.instance().getWorldBorder().setSize(4096);
         bossBarManager.UpdateBossBar(maxCount,nowCount);
+        if(nowCount%60==0&&!(nowCount==maxCount))
+        {
+            Manhunt2.instance().getCompass().UpdatePlayersLocations();
+        }
         nowCount--;
     }
     private void AtEnd()
@@ -115,7 +119,7 @@ public class MainLoop extends BukkitRunnable{
                     Player player=(Player) offlinePlayer;
                     if(team.getName().equals("hunter"))
                     {
-                        Bukkit.dispatchCommand(player,"supportmanhuntcompass");
+                        Manhunt2.instance().getCompass().GiveCompass(player);
                     }
                     player.stopSound(SoundCategory.BLOCKS);
                 }
@@ -123,7 +127,7 @@ public class MainLoop extends BukkitRunnable{
         }
     }
 
-    private void UpTo30secAfterStart() {
+    private void UpTo15secAfterStart() {
         for(OfflinePlayer offlinePlayer:Manhunt2.instance().board().getTeam("hunter").getPlayers())
         {
             if(offlinePlayer instanceof Player)
@@ -141,6 +145,7 @@ public class MainLoop extends BukkitRunnable{
     }
     private void AtStart()
     {
+        Manhunt2.instance().newCompass();
         for(OfflinePlayer offlinePlayer:Manhunt2.instance().getDeadHunterTeam().getPlayers())
         {
             if(offlinePlayer instanceof Player)

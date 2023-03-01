@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
+import org.checkerframework.checker.units.qual.C;
 
 public class Manhunt2 {
     private static final Manhunt2 instance=new Manhunt2();
@@ -21,6 +22,7 @@ public class Manhunt2 {
     private final Team deadHunterTeam;
     private final Team deadRunnerTeam;
     private boolean ManhuntInitializing =false;
+    private Compass compass;
     private WorldBorder worldBorder=Bukkit.createWorldBorder();
     private MainLoop mainLoop=new MainLoop();
     private Manhunt2()
@@ -103,6 +105,14 @@ public class Manhunt2 {
     public void newMainLoop()
     {
         mainLoop=new MainLoop();
+    }
+    public void newCompass()
+    {
+        compass=new Compass();
+    }
+    public Compass getCompass()
+    {
+        return compass;
     }
     public WorldBorder getWorldBorder()
     {
