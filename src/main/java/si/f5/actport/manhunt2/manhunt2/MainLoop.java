@@ -150,6 +150,7 @@ public class MainLoop extends BukkitRunnable{
     }
     private void AtStart()
     {
+        Bukkit.getWorlds().get(0).setTime(0);
         Manhunt2.instance().newCompass();
         for(OfflinePlayer offlinePlayer:Manhunt2.instance().getDeadHunterTeam().getPlayers())
         {
