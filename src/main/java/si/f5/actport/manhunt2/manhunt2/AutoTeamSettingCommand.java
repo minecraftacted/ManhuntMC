@@ -30,25 +30,18 @@ public class AutoTeamSettingCommand implements CommandExecutor
             if(args.length==0)
             {
                 sender.sendMessage("総プレイヤーの半分を鬼にします");
-                RandomTeamSetting((int)Bukkit.getOnlinePlayers().size()/2);
+                RandomTeamSetting(Bukkit.getOnlinePlayers().size()/2);
                 return true;
             }
-            if(args.length==1)
-            {
-                try
-                {
-                    if(Integer.parseInt(args[0]) > Bukkit.getOnlinePlayers().size())
-                    {
-                        return false;
-                    }
-                }
-                catch (NumberFormatException e)
-                {
+            try {
+                if (Integer.parseInt(args[0]) > Bukkit.getOnlinePlayers().size()) {
                     return false;
                 }
-                RandomTeamSetting(Integer.parseInt(args[0]));
-                return true;
+            } catch (NumberFormatException e) {
+                return false;
             }
+            RandomTeamSetting(Integer.parseInt(args[0]));
+            return true;
         }
         return false;
     }
