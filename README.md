@@ -1,3 +1,1 @@
-# ManHunt2
-
-# TODO
+# ManhuntMC
