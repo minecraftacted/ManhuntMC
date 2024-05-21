@@ -1,6 +1,6 @@
 name: ManhuntMC
 version: '${project.version}'
-main: si.f5.actedsauce.manhuntmc.PluginMain
+main: si.f5.actedsauce.manhuntmc.manhuntmc.PluginMain
 api-version: 1.20
 authors: [ Acted_ ]
 description: manhunt
