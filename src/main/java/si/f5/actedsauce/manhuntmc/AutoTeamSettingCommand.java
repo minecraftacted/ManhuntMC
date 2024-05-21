@@ -1,4 +1,4 @@
-package si.f5.actport.manhunt2.manhunt2;
+package si.f5.actedsauce.manhuntmc;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
