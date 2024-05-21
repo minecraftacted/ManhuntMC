@@ -13,18 +13,24 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class VictoryJudge implements Listener {
     @EventHandler
-    public void onEnderDragonDeath(EntityDeathEvent ede)
+    public void PortalEvent(PlayerPortalEvent ppe)
     {
-        if(!(ede.getEntity() instanceof EnderDragon))
+        if(Manhunt2.instance().getHunterTeam().hasPlayer(ppe.getPlayer()))
         {
-            return;
+            ppe.getPlayer().sendMessage(Manhunt2.LINE+ ChatColor.RED +"\n鬼はネザーに行けません\n"+ChatColor.RESET+Manhunt2.LINE);
+            ppe.setCancelled(true);
         }
-        if(!(Manhunt2.instance().getMainLoop().Running.get()))
+        else if(Manhunt2.instance().getRunnerTeam().hasPlayer(ppe.getPlayer()))
         {
-            return;
+            if(Manhunt2.instance().getMainLoop().Running.get())
+            {
+                Bukkit.broadcastMessage(Manhunt2.instance().getRunnerTeam().getPrefix()+ChatColor.RESET+ppe.getPlayer().getName()+"がネザーゲートに入った");
+                RunnerWin();
+                Manhunt2.instance().getRunnerTeam().removePlayer(ppe.getPlayer());
+                ppe.setCancelled(true);
+                ppe.getPlayer().setGameMode(GameMode.SPECTATOR);
+            }
         }
-        Bukkit.broadcastMessage(Manhunt2.LINE+"\nエンダードラゴンが倒された.....\n"+Manhunt2.LINE);
-        RunnerWin();
     }
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent pde)
