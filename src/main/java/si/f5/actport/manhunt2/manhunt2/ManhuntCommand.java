@@ -19,7 +19,7 @@ public class ManhuntCommand implements CommandExecutor {
             if(args.length==0)
             {
                 Manhunt2.instance().newMainLoop();
-                Manhunt2.instance().getMainLoop().SetCount(10800);
+                Manhunt2.instance().getMainLoop().SetCount(1800);
                 Manhunt2.instance().getMainLoop().runTaskTimer(PluginMain.getPlugin(),0,20);
                 return true;
             }
