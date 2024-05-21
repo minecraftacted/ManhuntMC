@@ -4,14 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>si.f5.actport.manhunt2</groupId>
-    <artifactId>manhunt2</artifactId>
-    <version>2.2</version>
+    <groupId>si.f5.actedsauce.manhuntmc</groupId>
+    <artifactId>manhuntmc</artifactId>
+    <version>3.0</version>
     <packaging>jar</packaging>
 
-    <name>Manhunt2</name>
+    <name>ManhuntMC</name>
 
-    <description>Manhuntがクソコード過ぎたので作り直しました。</description>
+    <description>ManhuntMC</description>
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
