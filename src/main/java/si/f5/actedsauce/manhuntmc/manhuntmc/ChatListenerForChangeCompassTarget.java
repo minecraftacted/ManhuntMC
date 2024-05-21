@@ -1,4 +1,4 @@
-package si.f5.actedsauce.manhuntmc;
+package si.f5.actedsauce.manhuntmc.manhuntmc;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -11,7 +11,7 @@ public class ChatListenerForChangeCompassTarget implements Listener {
     @EventHandler
     public void onChat(AsyncPlayerChatEvent apce)
     {
-        if(Manhunt2.instance().getCompass().DoPlayerHaveCompass(apce.getPlayer()) &&  Manhunt2.instance().getCompass().SetTarget(apce.getPlayer(),Bukkit.getPlayer(apce.getMessage())))
+        if(ManhuntMC.instance().getCompass().DoPlayerHaveCompass(apce.getPlayer()) &&  ManhuntMC.instance().getCompass().SetTarget(apce.getPlayer(),Bukkit.getPlayer(apce.getMessage())))
         {
             apce.getPlayer().playSound(apce.getPlayer(), Sound.ITEM_CROSSBOW_LOADING_END, SoundCategory.MASTER,1f,0.1f);
             apce.getPlayer().sendMessage("ターゲットを"+apce.getMessage()+"に変更した。");

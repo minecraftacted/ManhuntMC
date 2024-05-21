@@ -1,4 +1,4 @@
-package si.f5.actedsauce.manhuntmc;
+package si.f5.actedsauce.manhuntmc.manhuntmc;
 
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -41,12 +41,12 @@ public class Compass {
         {
             if(player.getInventory().contains(compass))
             {
-                player.sendMessage(Manhunt2.LINE+ ChatColor.GREEN +"\n位置情報が更新された!\n"+ChatColor.RESET+Manhunt2.LINE);
+                player.sendMessage(ManhuntMC.LINE+ ChatColor.GREEN +"\n位置情報が更新された!\n"+ChatColor.RESET+ ManhuntMC.LINE);
                 player.playSound(player,Sound.BLOCK_BEACON_ACTIVATE,SoundCategory.MASTER,1,2);
             }
             else
             {
-                player.sendMessage(Manhunt2.LINE+ ChatColor.GRAY +"\n鬼に位置情報が送信された...\n"+ChatColor.RESET+Manhunt2.LINE);
+                player.sendMessage(ManhuntMC.LINE+ ChatColor.GRAY +"\n鬼に位置情報が送信された...\n"+ChatColor.RESET+ ManhuntMC.LINE);
                 player.playSound(player,Sound.BLOCK_BEACON_ACTIVATE,SoundCategory.MASTER,1,1);
             }
         }

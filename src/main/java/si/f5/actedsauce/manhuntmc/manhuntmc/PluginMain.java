@@ -1,4 +1,4 @@
-package si.f5.actedsauce.manhuntmc;
+package si.f5.actedsauce.manhuntmc.manhuntmc;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
@@ -6,7 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class PluginMain extends JavaPlugin {
 private static Plugin plugin;
-private Manhunt2 manhunt2;
+private ManhuntMC manhuntMC;
 private ManhuntInitCommand manhuntInitCommand;
 private ManhuntCommand manhuntCommand;
 private VictoryJudge victoryJudge;
@@ -24,7 +24,7 @@ private VictoryJudge victoryJudge;
         Bukkit.getServer().getPluginManager().registerEvents(new ManhuntInitChatListener(),this);
         Bukkit.getServer().getPluginManager().registerEvents(victoryJudge,this);
         Bukkit.getServer().getPluginManager().registerEvents(new ChatListenerForChangeCompassTarget(),this);
-        manhunt2=Manhunt2.instance();
+        manhuntMC = ManhuntMC.instance();
     }
 
     @Override
@@ -32,7 +32,7 @@ private VictoryJudge victoryJudge;
         // Plugin shutdown logic
         manhuntInitCommand.onDisable();
         manhuntCommand.onDisable();
-        manhunt2.onDisable();
+        manhuntMC.onDisable();
     }
 
     public static Plugin getPlugin() {

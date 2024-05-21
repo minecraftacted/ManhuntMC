@@ -1,4 +1,4 @@
-package si.f5.actedsauce.manhuntmc;
+package si.f5.actedsauce.manhuntmc.manhuntmc;
 
 import org.bukkit.Color;
 import org.bukkit.Location;

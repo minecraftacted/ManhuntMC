@@ -1,11 +1,10 @@
-package si.f5.actedsauce.manhuntmc;
+package si.f5.actedsauce.manhuntmc.manhuntmc;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -13,11 +12,11 @@ import java.util.Random;
 public class AutoTeamSettingCommand implements CommandExecutor
 {
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args)
+    public boolean onCommand(CommandSender sender,Command command,String label,String[] args)
     {
         if(command.getName().equalsIgnoreCase("autoteamsetting"))
         {
-            if(Manhunt2.instance().getMainLoop().Running.get())
+            if(ManhuntMC.instance().getMainLoop().Running.get())
             {
                 sender.sendMessage("ゲームが実行中です");
                 return false;
@@ -51,19 +50,19 @@ public class AutoTeamSettingCommand implements CommandExecutor
         ArrayList<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
         for(Player player:players)
         {
-            Manhunt2.instance().RemovePlayerFromRunner(player);
-            Manhunt2.instance().RemovePlayerFromHunter(player);
+            ManhuntMC.instance().RemovePlayerFromRunner(player);
+            ManhuntMC.instance().RemovePlayerFromHunter(player);
         }
-        while(Manhunt2.instance().getHunterTeam().getSize()<numOfHunter)//ハンターの数が目標より小さい間
+        while(ManhuntMC.instance().getHunterTeam().getSize()<numOfHunter)//ハンターの数が目標より小さい間
         {
             var playerIndex=random.nextInt(players.size());
-            Manhunt2.instance().JoinHunterTeam(players.get(playerIndex));
+            ManhuntMC.instance().JoinHunterTeam(players.get(playerIndex));
         }
         for(Player player:players)
         {
-            if(!Manhunt2.instance().getHunterTeam().hasPlayer(player))
+            if(!ManhuntMC.instance().getHunterTeam().hasPlayer(player))
             {
-                Manhunt2.instance().JoinRunnerTeam(player);
+                ManhuntMC.instance().JoinRunnerTeam(player);
             }
         }
     }

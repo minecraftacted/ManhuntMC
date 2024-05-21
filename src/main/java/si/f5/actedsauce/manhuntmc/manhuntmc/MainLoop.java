@@ -1,5 +1,5 @@
 
-package si.f5.actedsauce.manhuntmc;
+package si.f5.actedsauce.manhuntmc.manhuntmc;
 
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -71,7 +71,7 @@ public class MainLoop extends BukkitRunnable{
         }
         if(nowCount==300)
         {
-            for(OfflinePlayer offlinePlayer:Manhunt2.instance().board().getTeam("runner").getPlayers())
+            for(OfflinePlayer offlinePlayer: ManhuntMC.instance().board().getTeam("runner").getPlayers())
             {
                 if(offlinePlayer instanceof Player)
                 {
@@ -84,15 +84,15 @@ public class MainLoop extends BukkitRunnable{
         bossBarManager.UpdateBossBar(maxCount,nowCount);
         if(nowCount%60==0&&!(nowCount==maxCount))
         {
-            Manhunt2.instance().getCompass().UpdatePlayersLocations();
+            ManhuntMC.instance().getCompass().UpdatePlayersLocations();
         }
         nowCount--;
     }
     private void AtEnd()
     {
-        Manhunt2.instance().getHunterTeam().setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.ALWAYS);
-        Manhunt2.instance().getRunnerTeam().setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.ALWAYS);
-        for(Team team: Manhunt2.instance().board().getTeams())
+        ManhuntMC.instance().getHunterTeam().setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.ALWAYS);
+        ManhuntMC.instance().getRunnerTeam().setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.ALWAYS);
+        for(Team team: ManhuntMC.instance().board().getTeams())
         {
             for(OfflinePlayer offlinePlayer: team.getPlayers())
             {
@@ -108,7 +108,7 @@ public class MainLoop extends BukkitRunnable{
         cancel();
     }
     private void WhenTheHunterIsOpen() {
-        for(Team team:Manhunt2.instance().board().getTeams())
+        for(Team team: ManhuntMC.instance().board().getTeams())
         {
             for(OfflinePlayer offlinePlayer:team.getPlayers())
             {
@@ -117,7 +117,7 @@ public class MainLoop extends BukkitRunnable{
                     Player player=(Player) offlinePlayer;
                     if(team.getName().equals("hunter"))
                     {
-                        Manhunt2.instance().getCompass().GiveCompass(player);
+                        ManhuntMC.instance().getCompass().GiveCompass(player);
                     }
                     player.stopSound(SoundCategory.BLOCKS);
                 }
@@ -126,7 +126,7 @@ public class MainLoop extends BukkitRunnable{
     }
 
     private void AtStandByTime() {
-        for(OfflinePlayer offlinePlayer:Manhunt2.instance().board().getTeam("hunter").getPlayers())
+        for(OfflinePlayer offlinePlayer: ManhuntMC.instance().board().getTeam("hunter").getPlayers())
         {
             if(offlinePlayer instanceof Player)
             {
@@ -151,28 +151,28 @@ public class MainLoop extends BukkitRunnable{
     private void AtStart()
     {
         Bukkit.getWorlds().get(0).setTime(0);
-        Manhunt2.instance().newCompass();
-        for(OfflinePlayer offlinePlayer:Manhunt2.instance().getDeadHunterTeam().getPlayers())
+        ManhuntMC.instance().newCompass();
+        for(OfflinePlayer offlinePlayer: ManhuntMC.instance().getDeadHunterTeam().getPlayers())
         {
             if(offlinePlayer instanceof Player)
             {
                 Player player=(Player) offlinePlayer;
-                Manhunt2.instance().getDeadHunterTeam().removePlayer(player);
+                ManhuntMC.instance().getDeadHunterTeam().removePlayer(player);
             }
         }
-        for(OfflinePlayer offlinePlayer:Manhunt2.instance().getDeadRunnerTeam().getPlayers())
+        for(OfflinePlayer offlinePlayer: ManhuntMC.instance().getDeadRunnerTeam().getPlayers())
         {
             if(offlinePlayer instanceof Player)
             {
                 Player player=(Player) offlinePlayer;
-                Manhunt2.instance().getDeadRunnerTeam().removePlayer(player);
+                ManhuntMC.instance().getDeadRunnerTeam().removePlayer(player);
             }
         }
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"advancement revoke @a everything");
         huntersInitalPosition=new HashMap<>();
-        Manhunt2.instance().getRunnerTeam().setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OTHER_TEAMS);
-        Manhunt2.instance().getHunterTeam().setOption(Team.Option.NAME_TAG_VISIBILITY,Team.OptionStatus.FOR_OTHER_TEAMS);
-        for(Team team:Manhunt2.instance().board().getTeams())
+        ManhuntMC.instance().getRunnerTeam().setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OTHER_TEAMS);
+        ManhuntMC.instance().getHunterTeam().setOption(Team.Option.NAME_TAG_VISIBILITY,Team.OptionStatus.FOR_OTHER_TEAMS);
+        for(Team team: ManhuntMC.instance().board().getTeams())
         {
             for(OfflinePlayer offlinePlayer:team.getPlayers())
             {
@@ -189,28 +189,28 @@ public class MainLoop extends BukkitRunnable{
                     {
                         player.removePotionEffect(effect.getType());
                     }
-                    player.sendMessage(Manhunt2.LINE+ChatColor.UNDERLINE+ChatColor.BOLD+"\n開始\n"
-                            +ChatColor.RESET+Manhunt2.instance().getHunterTeam().getPrefix()+"\n");
-                    for(OfflinePlayer offlineHunter: Manhunt2.instance().getHunterTeam().getPlayers())
+                    player.sendMessage(ManhuntMC.LINE+ChatColor.UNDERLINE+ChatColor.BOLD+"\n開始\n"
+                            +ChatColor.RESET+ ManhuntMC.instance().getHunterTeam().getPrefix()+"\n");
+                    for(OfflinePlayer offlineHunter: ManhuntMC.instance().getHunterTeam().getPlayers())
                     {
                         if(offlineHunter instanceof Player)
                         {
                             Player hunter=(Player) offlineHunter;
-                            player.sendMessage(hunter.displayName());
+                            player.sendMessage(hunter.getDisplayName());
                         }
                     }
                     player.sendMessage("\n");
-                    player.sendMessage(Manhunt2.instance().getRunnerTeam().getPrefix()+"\n");
-                    for(OfflinePlayer offlineRunner: Manhunt2.instance().getRunnerTeam().getPlayers())
+                    player.sendMessage(ManhuntMC.instance().getRunnerTeam().getPrefix()+"\n");
+                    for(OfflinePlayer offlineRunner: ManhuntMC.instance().getRunnerTeam().getPlayers())
                     {
                         if(offlineRunner instanceof Player)
                         {
                             Player runner=(Player) offlineRunner;
-                            player.sendMessage(runner.displayName());
+                            player.sendMessage(runner.getDisplayName());
                         }
                     }
-                    player.sendMessage(Manhunt2.LINE);
-                    player.sendMessage(Manhunt2.LINE);
+                    player.sendMessage(ManhuntMC.LINE);
+                    player.sendMessage(ManhuntMC.LINE);
                     if(team.getName().equals("hunter"))
                     {
                         player.sendMessage(ChatColor.RED+"あなたは鬼だ。");
@@ -223,7 +223,7 @@ public class MainLoop extends BukkitRunnable{
                         player.sendMessage("ある日突然、希望の光は現れた。我々は隙を突いて脱出した。\nどんな代償を払おうとも、我々は帰還しなければならない。\n何故か? それは与えられた義務だからだ。"+
                                 "\n\n勝利条件:\n    鬼が全滅する\n    エンダードラゴンを倒す\n敗北条件:\n    全滅する\n    時間切れになる");
                     }
-                    player.sendMessage(Manhunt2.LINE);
+                    player.sendMessage(ManhuntMC.LINE);
                     if(team.getName().equals("hunter"))
                     {
                         player.setGameMode(GameMode.SURVIVAL);

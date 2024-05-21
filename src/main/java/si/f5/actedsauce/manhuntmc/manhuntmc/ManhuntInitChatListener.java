@@ -1,4 +1,4 @@
-package si.f5.actedsauce.manhuntmc;
+package si.f5.actedsauce.manhuntmc.manhuntmc;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -8,15 +8,15 @@ public class ManhuntInitChatListener implements Listener {
     @EventHandler
     public void TeamAssignOnChatEvent(AsyncPlayerChatEvent apce)
     {
-        if(Manhunt2.instance().ManhuntInitializing())
+        if(ManhuntMC.instance().ManhuntInitializing())
         {
             if(apce.getMessage().equalsIgnoreCase("runner"))
             {
-                Manhunt2.instance().JoinRunnerTeam(apce.getPlayer());
+                ManhuntMC.instance().JoinRunnerTeam(apce.getPlayer());
                 apce.setCancelled(true);
             } else if (apce.getMessage().equalsIgnoreCase("hunter"))
             {
-                Manhunt2.instance().JoinHunterTeam(apce.getPlayer());
+                ManhuntMC.instance().JoinHunterTeam(apce.getPlayer());
                 apce.setCancelled(true);
             }
         }
